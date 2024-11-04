@@ -64,17 +64,14 @@ export default{
         },
         onDisable (){
             this.isDisable= true;
-            console.log("disable")
         },
 
         onDisableTemp(){
             this.isDisableTemp = true;
-            console.log("disable temp")
 
         },
         offDisableTemp(){
             this.isDisableTemp = false;
-            console.log("off disable temp")
         }
         
     },  
