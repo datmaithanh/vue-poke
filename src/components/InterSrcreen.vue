@@ -39,7 +39,9 @@ export default {
     },
     methods:{
         checkRules(card){
-            //Nếu đã chọn 2 rồi thì không được chọn gì thêm
+            // rules.length = 1 thì không cho flip rule[0]
+            
+            
             if(this.rules.length === 1 ){
                 for (let i = 0; i < this.cardReady.length; i++) {
                     if (this.$refs[`card-${i}`][0]) {
@@ -57,6 +59,32 @@ export default {
             
             this.rules.push(card);
 
+            //nếu chọn 1 thì sẽ disable thẻ vừa chọn
+            if (this.rules.length === 1) {
+                this.$refs[`card-${this.rules[0].index}`][0].onDisableTemp();
+            }
+            //nếu chọn 2 thì disable 2 thẻ vừa chọn sau khi 0,9s(900ms) thì bỏ disable cả 2 thẻ
+            if (this.rules.length === 2) {
+                const index1 = this.rules[0].index;
+                const index2 = this.rules[1].index;
+                if (this.$refs[`card-${index1}`][0]) {
+                    this.$refs[`card-${index1}`][0].onDisableTemp();
+                }
+                if (this.$refs[`card-${index2}`][0]) {
+                    this.$refs[`card-${index2}`][0].onDisableTemp();
+                }
+
+                setTimeout(() => {
+                    if (this.$refs[`card-${index1}`][0]) {
+                        this.$refs[`card-${index1}`][0].offDisableTemp();
+                    }
+                    if (this.$refs[`card-${index2}`][0]) {
+                        this.$refs[`card-${index2}`][0].offDisableTemp();
+                    }
+                }, 900);
+                
+            }
+            //trường hợp đúng
             if(this.rules.length === 2 && this.rules[0].value===this.rules[1].value){
                 //right
                 // add class tới component card
@@ -76,7 +104,7 @@ export default {
                     }, 1000);
                     
                 }
-            }
+            }// trường hợp sai
             else if(this.rules.length === 2 && this.rules[0].value !==this.rules[1].value){
                 setTimeout(() => {
                     // đóng 2 thẻ
@@ -90,9 +118,7 @@ export default {
             }
             else return false;
 
-        },
-        // Hàm disable toàn bộ các thẻ
-        
+        }, 
     },
     
 }
