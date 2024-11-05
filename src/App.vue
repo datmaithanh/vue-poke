@@ -1,6 +1,6 @@
 <template>
   <main-screen v-if="statusGame === 'default'" @onStart="onHeadleBeforeStart($event)" />
-  <inter-srcreen v-if="statusGame === 'inGame'" :cardReady="settings.cardReady" @onFinish="onGetResult"/>
+  <inter-srcreen v-if="statusGame === 'inGame'" :cardReady="settings.cardReady" @onFinish="onGetResult" @onBack="onBack"/>
   <result-screen v-if="statusGame ==='result'" :timer="timer" @onStartAgain="statusGame ='default'"/>
   
 </template>
@@ -49,6 +49,9 @@ export default {
       this.timer = new Date().getTime() - this.settings.timeOverGame;
 
       this.statusGame = "result";
+    },
+    onBack(){
+      this.statusGame = "default";
     }
   },  
 }

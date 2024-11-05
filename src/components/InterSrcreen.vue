@@ -1,8 +1,12 @@
 <template>
     <div class="screen">
+        <div class="back" @click="backToDefaul()">
+            <button>Back</button>
+        </div>
         <div class="screen_inner" :style="{
             width: `${(((920 - 16 * 4)/Math.sqrt(cardReady.length)-16) * 3 / 4 +16)*Math.sqrt(cardReady.length)}px`
         }">
+        
             <card-flip 
             v-for="(card, index) in cardReady " 
             :key="index"  
@@ -39,9 +43,8 @@ export default {
     },
     methods:{
         checkRules(card){
-            // rules.length = 1 thì không cho flip rule[0]
             
-            
+            //nếu đã chọn 2 thì disable tất cả các thẻ
             if(this.rules.length === 1 ){
                 for (let i = 0; i < this.cardReady.length; i++) {
                     if (this.$refs[`card-${i}`][0]) {
@@ -119,6 +122,9 @@ export default {
             else return false;
 
         }, 
+        backToDefaul(){
+            this.$emit("onBack")
+        }
     },
     
 }
@@ -127,6 +133,11 @@ export default {
 
 
 <style lang="css" scoped>
+    .back{
+        position: absolute;
+        top: 1rem;
+        left: 1rem;
+    }
     .screen{
         width: 100%;
         height: 100vh;
